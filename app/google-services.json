@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "178791951463",
+    "firebase_url": "https://skilled-seeker-121805.firebaseio.com",
+    "project_id": "skilled-seeker-121805",
+    "storage_bucket": "skilled-seeker-121805.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178791951463:android:772cab094cebe326",
+        "android_client_info": {
+          "package_name": "com.techninja.sensei.warmfuzzies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178791951463-kl9fbgji9psks2jukec9d0g88mfip6nm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techninja.sensei.warmfuzzies",
+            "certificate_hash": "A725AE1C4AD0B27C8726E778A88304B6BFF56F55"
+          }
+        },
+        {
+          "client_id": "178791951463-m203shlm0eihbh7uuu5m1562oa33n4qj.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "178791951463-n9pu97o7hmp8qiii0pn92v0s1ka250po.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3TozObCnaswWK4wGZj1zC3Zb0WHZybb4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
