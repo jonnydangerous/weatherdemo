@@ -1,5 +1,6 @@
 package com.techninja.sensei.weatherapp.Presenters;
 
+import com.techninja.sensei.weatherapp.Models.CityModel;
 import com.techninja.sensei.weatherapp.Models.WeatherResponse;
 import com.techninja.sensei.weatherapp.Persistence.IRepository;
 import com.techninja.sensei.weatherapp.Services.IWeatherWrapper;
@@ -43,6 +44,10 @@ public class MainPresenter {
 
     public void SetSelectedCity(int position) {
         WeatherResponse weather = WeatherData.get(position);
-        _view.SetSelectedCity(weather,_weatherWrapper.GetIcon(weather.getWeather().get(0).getIcon()) );
+        _view.SetSelectedCity(weather, _weatherWrapper.GetIcon(weather.getWeather().get(0).getIcon()));
+    }
+
+    public void LookupCity(String city) {
+        List<CityModel> cities = _repository.LookupCity(city);
     }
 }

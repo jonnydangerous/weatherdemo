@@ -1,15 +1,11 @@
 package com.techninja.sensei.weatherapp.Persistence;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.techninja.sensei.weatherapp.Models.CityModel;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,10 +15,12 @@ public class Repository implements IRepository {
     private static Repository ourInstance;
     private static InputStream _fileStream;
     private static ISharedPreferences _preferences;
+    private static CityModel[] _cities;
 
     public static Repository getInstance(ISharedPreferences preferences, InputStream fileStream) {
         ourInstance = new Repository(preferences);
         _fileStream = fileStream;
+        _cities = new Gson().fromJson(loadJSONFromAsset(), CityModel[].class);
         return ourInstance;
     }
 
@@ -45,32 +43,22 @@ public class Repository implements IRepository {
         _preferences.SetIntSet("cities", cities);
     }
 
-    public int LookupCity(String city) {
-        try {
-            JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
-            ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
-            HashMap<String, String> m_li;
+    @Override
+    public List<CityModel> LookupCity(String city) {
+        List<CityModel> matched = new ArrayList<>();
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jo_inside = jsonArray.getJSONObject(i);
-                Log.d("Details-->", jo_inside.getString("formule"));
-                String formula_value = jo_inside.getString("formule");
-                String url_value = jo_inside.getString("url");
+        for (CityModel cityModel : _cities) {
 
-                m_li = new HashMap<String, String>();
-                m_li.put("formule", formula_value);
-                m_li.put("url", url_value);
-
-                formList.add(m_li);
+            if (cityModel.name.startsWith(city)) {
+                matched.add(cityModel);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        return 0;
+
+        return matched;
     }
 
-    private String loadJSONFromAsset() {
-        String json = null;
+    private static String loadJSONFromAsset() {
+        String json;
         try {
             InputStream is = _fileStream;
             int size = is.available();

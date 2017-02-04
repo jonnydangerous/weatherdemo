@@ -6,13 +6,9 @@ import com.techninja.sensei.weatherapp.Presenters.MainPresenter;
 import com.techninja.sensei.weatherapp.Services.IWeatherWrapper;
 import com.techninja.sensei.weatherapp.Views.IMainView;
 
-import retrofit2.Callback;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -20,11 +16,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import retrofit2.Callback;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTests {
     MainPresenter _presenter;
@@ -76,6 +76,20 @@ public class MainPresenterTests {
 
     @Test
     public void SetSelectedCity_HappyPath() {
+        //Arrange
+        _presenter.WeatherData = _weatherResponse;
+        when(_weather.GetIcon(anyString())).thenReturn(1);
+        _getIconFromWeatherStub();
+
+        //Act
+        _presenter.SetSelectedCity(0);
+
+        //Assert
+        verify(_view).SetSelectedCity(_weatherResponse.get(0), 1);
+    }
+
+    @Test
+    public void FindCity_HappyPath() {
         //Arrange
         _presenter.WeatherData = _weatherResponse;
         when(_weather.GetIcon(anyString())).thenReturn(1);

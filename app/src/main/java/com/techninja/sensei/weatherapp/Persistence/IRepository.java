@@ -1,5 +1,7 @@
 package com.techninja.sensei.weatherapp.Persistence;
 
+import com.techninja.sensei.weatherapp.Models.CityModel;
+
 import java.util.List;
 
 /**
@@ -9,4 +11,6 @@ import java.util.List;
 public interface IRepository {
     List<Integer> GetCities();
     void AddCity(int cityId);
+
+    List<CityModel> LookupCity(String city);
 }

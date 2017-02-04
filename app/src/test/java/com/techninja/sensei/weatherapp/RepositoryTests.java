@@ -8,7 +8,6 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.mockito.Mockito;
 
 import java.io.InputStream;
@@ -32,7 +31,6 @@ public class RepositoryTests {
     public void SetUp() {
         _preferences = mock(ISharedPreferences.class);
         _stream  = mock(InputStream.class);
-
         _repos = Repository.getInstance(_preferences,_stream);
     }
 
@@ -62,6 +60,24 @@ public class RepositoryTests {
 
         //Act
         _repos.AddCity(3);
+
+        //Assert
+        verify(_preferences).GetIntSet(Mockito.eq("cities"));
+        verify(_preferences).SetIntSet(Mockito.eq("cities"), Mockito.eq(expectedCities));
+
+    }
+
+    @Test
+    public void LookupCity_HappyPath() {
+        //Arrange
+        List<Integer> expectedCities = new ArrayList<>();
+        expectedCities.add(1);
+        expectedCities.add(2);
+//when(_stream.available()).thenReturn()
+        when(_preferences.GetIntSet("cities")).thenReturn(expectedCities);
+
+        //Act
+        _repos.LookupCity("CITY");
 
         //Assert
         verify(_preferences).GetIntSet(Mockito.eq("cities"));

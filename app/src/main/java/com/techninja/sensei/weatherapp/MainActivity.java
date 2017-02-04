@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
         _toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(_toolbar);
-        TextView addAction =(TextView) _toolbar.findViewById(R.id.action_add_icon);
+        TextView addAction = (TextView) _toolbar.findViewById(R.id.action_add_icon);
         //        setupNavDrawer();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         InputStream file = null;
 
         try {
-            file = getApplication().getAssets().open("city.list.json");
+            file = getApplication().getAssets().open("city.list.us.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void SetupDialog() {
         _dialog = new AddCityDialog();
+
 //        _dialog.show(getSupportFragmentManager(), "AddCityDialog");
 //        _toolbar.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //            @Override
@@ -232,7 +232,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _dialog.show(getSupportFragmentManager(),"AddCityDialog");
+
+                _dialog.show(getSupportFragmentManager(), "AddCityDialog");
+                _dialog.SetChangeEvent(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        _presenter.LookupCity(s.toString());
+                    }
+                });
             }
         });
         return true;
