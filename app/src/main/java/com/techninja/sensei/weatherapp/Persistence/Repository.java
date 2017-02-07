@@ -38,18 +38,14 @@ public class Repository implements IRepository {
 
     @Override
     public void AddCity(int cityId) {
-        List<Integer> cities = this.GetCities();
-        cities.add(cityId);
-        _preferences.SetIntSet("cities", cities);
+        _preferences.AddCity("cities", cityId);
     }
 
     @Override
     public List<CityModel> LookupCity(String city) {
         List<CityModel> matched = new ArrayList<>();
-
         for (CityModel cityModel : _cities) {
-
-            if (cityModel.name.startsWith(city)) {
+            if (cityModel.name != null && cityModel.name.toLowerCase().startsWith(city.toLowerCase())) {
                 matched.add(cityModel);
             }
         }

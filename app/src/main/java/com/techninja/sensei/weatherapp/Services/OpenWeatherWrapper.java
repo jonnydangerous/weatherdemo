@@ -60,12 +60,16 @@ public class OpenWeatherWrapper implements IWeatherWrapper {
                 break;
             case "04n": icon =  _resources.getIdentifier("@drawable/ic_weather_9", null,_packageName);
                 break;
+            case "10d":
+            case "10n":
+            case "09n":
+            case "09d": icon =  _resources.getIdentifier("@drawable/ic_weather_18", null,_packageName);
+                break;
             case "50d": icon =  _resources.getIdentifier("@drawable/ic_weather_10", null,_packageName);
                 break;
             case "50n": icon =  _resources.getIdentifier("@drawable/ic_weather_11", null,_packageName);
                 break;
-            case "13d": icon =  _resources.getIdentifier("@drawable/ic_weather_23", null,_packageName);
-                break;
+            case "13d":
             case "13n": icon =  _resources.getIdentifier("@drawable/ic_weather_23", null,_packageName);
                 break;
             default: icon = _resources.getIdentifier("@drawable/ic_weather_2", null,_packageName);

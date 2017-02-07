@@ -16,5 +16,5 @@ public interface IMainView {
     Callback<WeatherResponse> GetWeatherCallback(int currentCityPosition);
 
     void SetSelectedCity(WeatherResponse weatherResponse, int icon);
-    void SetupDialog();
+
 }

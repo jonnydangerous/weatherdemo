@@ -1,9 +1,11 @@
 package com.techninja.sensei.weatherapp;
 
+import com.techninja.sensei.weatherapp.Models.CityModel;
 import com.techninja.sensei.weatherapp.Models.WeatherResponse;
 import com.techninja.sensei.weatherapp.Persistence.IRepository;
 import com.techninja.sensei.weatherapp.Presenters.MainPresenter;
 import com.techninja.sensei.weatherapp.Services.IWeatherWrapper;
+import com.techninja.sensei.weatherapp.Views.IAddCityDialogView;
 import com.techninja.sensei.weatherapp.Views.IMainView;
 
 import org.junit.Before;
@@ -33,14 +35,16 @@ public class MainPresenterTests {
     private IWeatherWrapper _weather;
 
     List<WeatherResponse> _weatherResponse = mock(ArrayList.class);
+    private IAddCityDialogView _dialog;
 
     @Before
     public void SetUp() {
         _view = mock(IMainView.class);
         _repos = mock(IRepository.class);
         _weather = mock(IWeatherWrapper.class);
+        _dialog = mock(IAddCityDialogView.class);
 
-        _presenter = Mockito.spy(new MainPresenter(_repos, _view, _weather));
+        _presenter = Mockito.spy(new MainPresenter(_repos, _view, _weather, _dialog));
 
     }
 
@@ -91,15 +95,19 @@ public class MainPresenterTests {
     @Test
     public void FindCity_HappyPath() {
         //Arrange
-        _presenter.WeatherData = _weatherResponse;
-        when(_weather.GetIcon(anyString())).thenReturn(1);
-        _getIconFromWeatherStub();
+        List<CityModel> expectedCities = new ArrayList<CityModel>() {
+        };
+        CityModel expectedCity = new CityModel();
+        expectedCity._id = 1;
+        expectedCity.name = "CITY 1";
+        expectedCities.add(expectedCity);
+        when(_repos.LookupCity(anyString())).thenReturn(expectedCities);
 
         //Act
-        _presenter.SetSelectedCity(0);
+        _presenter.LookupCity("CITY");
 
         //Assert
-        verify(_view).SetSelectedCity(_weatherResponse.get(0), 1);
+        verify(_dialog).SetMatchedCities(expectedCities);
     }
 
     private void _getIconFromWeatherStub() {

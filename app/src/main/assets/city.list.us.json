@@ -1,13 +1,5 @@
 [
-  {
-    "_id": 4070245,
-    "name": "Jones Crossroads",
-    "country": "US",
-    "coord": {
-      "lon": -85.484657,
-      "lat": 31.21073
-    }
-  },
+  {"_id": 4070245,    "name": "Jones Crossroads",    "country": "US",    "coord": {      "lon": -85.484657,      "lat": 31.21073    }  },
   {
     "_id": 4344544,
     "name": "Vernon Parish",
@@ -179746,5 +179738,5 @@
       "lon": -104.796371,
       "lat": 38.05167
     }
-  },
+  }
 ]

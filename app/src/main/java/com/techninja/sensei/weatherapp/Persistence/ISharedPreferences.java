@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ISharedPreferences {
     List<Integer> GetIntSet(String cities);
-    void SetIntSet(String key, List<Integer> list);
+    void AddCity(String key, int cityId);
 }

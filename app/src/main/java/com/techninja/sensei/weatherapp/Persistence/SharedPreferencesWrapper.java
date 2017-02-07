@@ -1,6 +1,5 @@
 package com.techninja.sensei.weatherapp.Persistence;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
@@ -38,12 +37,10 @@ public class SharedPreferencesWrapper implements ISharedPreferences {
     }
 
     @Override
-    public void SetIntSet(String key, List<Integer> list) {
+    public void AddCity(String key, int cityId) {
         SharedPreferences.Editor editor = _preferences.edit();
-        HashSet ids = new HashSet();
-        for (Integer id : list) {
-            ids.add(Integer.toString(id));
-        }
+        Set<String> ids = _preferences.getStringSet(key, new HashSet<String>());
+        ids.add(Integer.toString(cityId));
         editor.putStringSet(key,ids);
 
         editor.apply();

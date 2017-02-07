@@ -38,6 +38,7 @@ import com.techninja.sensei.weatherapp.Views.IMainView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private OpenWeatherWrapper _weatherService;
     protected static final int NAV_DRAWER_ITEM_INVALID = -1;
     AddCityDialog _dialog;
+    private CitiesListAdapter _cityListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         IRepository repository = Repository.getInstance(preferencesWrapper, file);
         _citiesListView = (ListView) findViewById(R.id.citiesList);
         _weatherService = new OpenWeatherWrapper(getString(R.string.api_key), getResources(), getPackageName());
-
-        _presenter = new MainPresenter(repository, this, _weatherService);
+        _dialog = new AddCityDialog();
+        _presenter = new MainPresenter(repository, this, _weatherService, _dialog);
         _presenter.UpdateView();
 
 
@@ -93,20 +95,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Typeface iconFont = FontHelper.getTypeface(getApplicationContext(), FontHelper.FONTAWESOME);
         FontHelper.markAsIconContainer(mainView, iconFont);
 
-    }
-
-    @Override
-    public void SetupDialog() {
-        _dialog = new AddCityDialog();
-
-//        _dialog.show(getSupportFragmentManager(), "AddCityDialog");
-//        _toolbar.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//                _dialog.show(getSupportFragmentManager(), "AddCityDialog");
-//                return true;
-//            }
-//        });
+        _cityListAdapter = new CitiesListAdapter(this, R.layout.city_item, new ArrayList<WeatherResponse>() {
+        }, _weatherService);
+        _citiesListView.setAdapter(_cityListAdapter);
     }
 
     /**
@@ -234,6 +225,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
 
                 _dialog.show(getSupportFragmentManager(), "AddCityDialog");
+                _dialog.AddCityClickEvent = (Integer cityId) -> {
+                    _presenter.AddCity(cityId);
+                    ;
+                    return cityId;
+                };
                 _dialog.SetChangeEvent(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -246,7 +242,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        _presenter.LookupCity(s.toString());
+                        if (s.toString().length() >= 3) {
+                            _presenter.LookupCity(s.toString());
+                        }
                     }
                 });
             }
@@ -278,8 +276,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void SetCities(List<WeatherResponse> cities) {
+        _cityListAdapter.DataItems.clear();
+        _cityListAdapter.DataItems.addAll(cities);
+        _cityListAdapter.notifyDataSetChanged();
 
-        _citiesListView.setAdapter(new CitiesListAdapter(this, R.layout.city_item, cities, _weatherService));
         _citiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
