@@ -49,7 +49,6 @@ public class Repository implements IRepository {
                 matched.add(cityModel);
             }
         }
-
         return matched;
     }
 

@@ -54,15 +54,29 @@ public class CitiesListAdapter extends BaseAdapter {
     public View getView(final int position, View view, final ViewGroup parent) {
         WeatherResponse city = DataItems.get(position);
         final View convertView = view == null ? _inflater.inflate(_layout, parent, false) : view;
-        final TextView tempView = (TextView) convertView.findViewById(R.id.temperature);
-        tempView.setText(Math.round(city.getMain().getTemp()) + "\u00b0 F");
-        final TextView taskName = (TextView) convertView.findViewById(R.id.city_name);
-        taskName.setText(city.getName());
+//        final TextView tempView = (TextView) convertView.findViewById(R.id.temperature);
+//        final TextView taskName = (TextView) convertView.findViewById(R.id.city_name);
 
-        ImageView image = (ImageView)convertView.findViewById(R.id.weather_icon);
-        image.setImageResource(_weather.GetIcon(city.getWeather().get(0).getIcon()));
+//        ImageView image = (ImageView)convertView.findViewById(R.id.weather_icon);
+
+        ViewHolder holder = new ViewHolder();
+        holder.tempTextView = (TextView) convertView.findViewById(R.id.temperature);
+        holder.cityTextView = (TextView) convertView.findViewById(R.id.city_name);
+        holder.weatherImageView = (ImageView) convertView.findViewById(R.id.weather_icon);
+        holder.tempTextView.setText(Math.round(city.getMain().getTemp()) + "\u00b0 F");
+        holder.cityTextView.setText(city.getName());
+        holder.weatherImageView.setImageResource(_weather.GetIcon(city.getWeather().get(0).getIcon()));
+
+
+        convertView.setTag(holder);
 
         return convertView;
     }
 
+    static class ViewHolder {
+        TextView tempTextView;
+        TextView cityTextView;
+        ImageView weatherImageView;
+        int position;
+    }
 }

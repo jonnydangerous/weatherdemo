@@ -2,9 +2,11 @@ package com.techninja.sensei.weatherapp;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -291,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public Callback<WeatherResponse> GetWeatherCallback(final int currentCityPosition) {
         return new Callback<WeatherResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.i("Response", response.toString());

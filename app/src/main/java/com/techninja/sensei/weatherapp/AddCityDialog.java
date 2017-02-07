@@ -27,14 +27,16 @@ public class AddCityDialog extends AppCompatDialogFragment implements IAddCityDi
     private List<CityModel> _cities;
     private LookupCityAdapter _adapter;
     public  Function<Integer,Integer> AddCityClickEvent;
+    private EditText _cityEditText;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _cities = new ArrayList<>();
         _view = inflater.inflate(R.layout.activity_add_city_dialog, container, false);
         FontHelper.markAsIconContainer(getContext(), _view);
         getDialog().setTitle("Lookup city");
-        EditText cityEditText = (EditText) _view.findViewById(R.id.city_lookup);
-        setUpOnChange(cityEditText);
+        _cityEditText = (EditText) _view.findViewById(R.id.city_lookup);
+        setUpOnChange(_cityEditText);
         return _view;
     }
 
@@ -60,6 +62,7 @@ public class AddCityDialog extends AppCompatDialogFragment implements IAddCityDi
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Integer cityId = _cities.get(i)._id;
                 AddCityClickEvent.apply(cityId);
+                _cityEditText.setText(null);
                 dismiss();
             }
         });

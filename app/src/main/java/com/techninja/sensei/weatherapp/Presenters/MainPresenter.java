@@ -1,5 +1,8 @@
 package com.techninja.sensei.weatherapp.Presenters;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.techninja.sensei.weatherapp.Models.CityModel;
 import com.techninja.sensei.weatherapp.Models.WeatherResponse;
 import com.techninja.sensei.weatherapp.Persistence.IRepository;
@@ -39,7 +42,9 @@ public class MainPresenter {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void UpdateCityData() {
+        WeatherData.sort((a, b) -> a.getName().compareTo(b.getName()));
         SetSelectedCity(0);
         _view.SetCities(WeatherData);
     }
@@ -54,6 +59,7 @@ public class MainPresenter {
         _dialog.SetMatchedCities(cities);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void AddCity(int cityId) {
         _repository.AddCity(cityId);
         UpdateView();
