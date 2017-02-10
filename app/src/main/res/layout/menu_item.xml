@@ -1,20 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-    <TextView
-        android:layout_width="30dp"
+    <data></data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/fa_plus_circle"
-        android:fontFamily="FontAwesome"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:textSize="26dp"
-        android:textColor="@color/colorInverseText"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/action_add_icon"
-        android:drawableBottom="@color/colorAccent"
-        android:drawableLeft="@color/colorAccent"
-        android:drawableRight="@color/colorAccent"
-        />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/action_add_icon"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:drawableBottom="@color/colorAccent"
+            android:drawableLeft="@color/colorAccent"
+            android:drawableRight="@color/colorAccent"
+            android:fontFamily="FontAwesome"
+            android:text="@string/fa_plus_circle"
+            android:textColor="@color/colorInverseText"
+            android:textSize="26dp" />
+    </LinearLayout>
+</layout>

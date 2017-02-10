@@ -1,6 +1,8 @@
 package com.techninja.sensei.weatherapp.Views;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,22 +55,24 @@ public class CitiesListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
         WeatherResponse city = DataItems.get(position);
+
+//        ViewDataBinding convertView = DataBindingUtil.inflate(_inflater, _layout, parent, false);
         final View convertView = view == null ? _inflater.inflate(_layout, parent, false) : view;
 //        final TextView tempView = (TextView) convertView.findViewById(R.id.temperature);
 //        final TextView taskName = (TextView) convertView.findViewById(R.id.city_name);
 
 //        ImageView image = (ImageView)convertView.findViewById(R.id.weather_icon);
 
-        ViewHolder holder = new ViewHolder();
-        holder.tempTextView = (TextView) convertView.findViewById(R.id.temperature);
-        holder.cityTextView = (TextView) convertView.findViewById(R.id.city_name);
-        holder.weatherImageView = (ImageView) convertView.findViewById(R.id.weather_icon);
-        holder.tempTextView.setText(Math.round(city.getMain().getTemp()) + "\u00b0 F");
-        holder.cityTextView.setText(city.getName());
-        holder.weatherImageView.setImageResource(_weather.GetIcon(city.getWeather().get(0).getIcon()));
-
-
-        convertView.setTag(holder);
+//        ViewHolder holder = new ViewHolder();
+//        holder.tempTextView = (TextView) convertView.findViewById(R.id.temperature);
+//        holder.cityTextView = (TextView) convertView.findViewById(R.id.city_name);
+//        holder.weatherImageView = (ImageView) convertView.findViewById(R.id.weather_icon);
+//        holder.tempTextView.setText(Math.round(city.getMain().getTemp()) + "\u00b0 F");
+//        holder.cityTextView.setText(city.getName());
+//        holder.weatherImageView.setImageResource(_weather.GetIcon(city.getWeather().get(0).getIcon()));
+//
+//
+//        convertView.setTag(holder);
 
         return convertView;
     }

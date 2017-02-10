@@ -3,7 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.1"
-
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.techninja.sensei.warmfuzzies"
         minSdkVersion 19
@@ -12,7 +14,7 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         jackOptions{
-            enabled true
+            enabled false
         }
     }
     buildTypes {
@@ -22,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility 1.7
+        sourceCompatibility 1.7
     }
 }
 

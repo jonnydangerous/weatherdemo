@@ -1,5 +1,8 @@
 package com.techninja.sensei.weatherapp.Presenters;
 
+import android.database.Observable;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -23,7 +26,7 @@ public class MainPresenter {
     private IAddCityDialogView _dialog;
     private IRepository _repository;
 
-    public List<WeatherResponse> WeatherData;
+    public ObservableList<WeatherResponse> WeatherData;
     public int CityCount;
 
     public MainPresenter(IRepository repository, IMainView view, IWeatherWrapper weatherWrapper, IAddCityDialogView dialog) {
@@ -31,7 +34,6 @@ public class MainPresenter {
         _view = view;
         _weatherWrapper = weatherWrapper;
         _dialog = dialog;
-        WeatherData = new ArrayList<>();
     }
 
     public void UpdateView() {
@@ -44,7 +46,7 @@ public class MainPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void UpdateCityData() {
-        WeatherData.sort((a, b) -> a.getName().compareTo(b.getName()));
+        //WeatherData.sort((a, b) -> a.getName().compareTo(b.getName()));
         SetSelectedCity(0);
         _view.SetCities(WeatherData);
     }

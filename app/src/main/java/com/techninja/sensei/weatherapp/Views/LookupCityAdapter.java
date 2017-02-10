@@ -1,6 +1,8 @@
 package com.techninja.sensei.weatherapp.Views;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ public class LookupCityAdapter extends ArrayAdapter {
         _context = context;
         _inflater = LayoutInflater.from(context);
         _cities = cities;
+
     }
 
     public AdapterView.OnItemClickListener AddEvent= null;
@@ -37,12 +40,13 @@ public class LookupCityAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
         final CityModel city = _cities.get(position);
-        final View convertView = view == null ? _inflater.inflate(_layout, parent, false) : view;
-        final TextView taskName = (TextView) convertView.findViewById(R.id.city_name);
-        taskName.setText(city.name);
-        final TextView add_icon = (TextView) convertView.findViewById(R.id.add_city_icon);
-        FontHelper.markAsIconContainer(convertView.getContext(),add_icon);
+        final ViewDataBinding convertView = DataBindingUtil.inflate(_inflater, _layout, parent, false);
+//        final View convertView = view == null ? _inflater.inflate(_layout, parent, false) : view;
+//        final TextView taskName = (TextView) convertView.findViewById(R.id.city_name);
+//        taskName.setText(city.name);
+//        final TextView add_icon = (TextView) convertView.findViewById(R.id.add_city_icon);
+//        FontHelper.markAsIconContainer(convertView.getContext(),add_icon);
 //        add_icon.setOnClickListener(AddEvent);
-        return convertView;
+        return view;
     }
 }

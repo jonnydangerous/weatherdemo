@@ -1,27 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_add_city_dialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.techninja.sensei.weatherapp.AddCityDialog">
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="dialog"
+            type="com.techninja.sensei.weatherapp.Models.AddCityDialogModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_add_city_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="City Lookup"  android:textStyle="bold" android:id="@+id/city_label"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/city_label"
-        android:id="@+id/city_lookup"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/matched_cities_list"
-        android:layout_below="@id/city_lookup"
-        ></ListView>
-</RelativeLayout>
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.techninja.sensei.weatherapp.AddCityDialog">
+
+        <TextView
+            android:id="@+id/city_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City Lookup"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/city_lookup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city_label"
+            android:text=""
+            />
+
+        <ListView
+            android:id="@+id/matched_cities_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city_lookup"
+            ></ListView>
+    </RelativeLayout>
+</layout>

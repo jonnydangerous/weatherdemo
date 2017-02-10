@@ -19,14 +19,14 @@ import com.techninja.sensei.weatherapp.Views.LookupCityAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+//import java.util.function.Function;
 
 public class AddCityDialog extends AppCompatDialogFragment implements IAddCityDialogView {
     private View _view;
     private TextWatcher _onChangeWatcher;
     private List<CityModel> _cities;
     private LookupCityAdapter _adapter;
-    public  Function<Integer,Integer> AddCityClickEvent;
+//    public  Function<Integer,Integer> AddCityClickEvent;
     private EditText _cityEditText;
 
     @Override
@@ -55,17 +55,17 @@ public class AddCityDialog extends AppCompatDialogFragment implements IAddCityDi
         _adapter = new LookupCityAdapter(getContext(), R.layout.lookup_city_item, cities);
         ListView list = (ListView) _view.findViewById(R.id.matched_cities_list);
         list.setAdapter(_adapter);
-        list.setOnItemClickListener(new ListView.OnItemClickListener() {
+//        list.setOnItemClickListener(new ListView.OnItemClickListener() {
 
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Integer cityId = _cities.get(i)._id;
-                AddCityClickEvent.apply(cityId);
-                _cityEditText.setText(null);
-                dismiss();
-            }
-        });
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Integer cityId = _cities.get(i)._id;
+////                AddCityClickEvent.apply(cityId);
+//                _cityEditText.setText(null);
+//                dismiss();
+//            }
+//        });
     }
 
 //    @Override

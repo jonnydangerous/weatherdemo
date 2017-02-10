@@ -1,6 +1,7 @@
 package com.techninja.sensei.weatherapp;
 
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.techninja.sensei.weatherapp.Models.MainViewModel;
 import com.techninja.sensei.weatherapp.Models.WeatherResponse;
 import com.techninja.sensei.weatherapp.Persistence.IRepository;
 import com.techninja.sensei.weatherapp.Persistence.Repository;
@@ -37,10 +39,10 @@ import com.techninja.sensei.weatherapp.Services.OpenWeatherWrapper;
 import com.techninja.sensei.weatherapp.Utilities.FontHelper;
 import com.techninja.sensei.weatherapp.Views.CitiesListAdapter;
 import com.techninja.sensei.weatherapp.Views.IMainView;
+import com.techninja.sensei.weatherapp.databinding.ActivityMainBinding;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,15 +62,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected static final int NAV_DRAWER_ITEM_INVALID = -1;
     AddCityDialog _dialog;
     private CitiesListAdapter _cityListAdapter;
+    private MainViewModel _model;
+    private ActivityMainBinding _bindingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        _toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(_toolbar);
-        TextView addAction = (TextView) _toolbar.findViewById(R.id.action_add_icon);
-        //        setupNavDrawer();
+//        setContentView(R.layout.activity_main);
+
+//        TextView addAction = (TextView) _toolbar.findViewById(R.id.action_add_icon);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences preferences = getSharedPreferences("WeatherAppSettings", 0);
@@ -82,37 +84,42 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         IRepository repository = Repository.getInstance(preferencesWrapper, file);
-        _citiesListView = (ListView) findViewById(R.id.citiesList);
+//        _citiesListView = (ListView) findViewById(R.id.citiesList);
         _weatherService = new OpenWeatherWrapper(getString(R.string.api_key), getResources(), getPackageName());
         _dialog = new AddCityDialog();
-        _presenter = new MainPresenter(repository, this, _weatherService, _dialog);
-        _presenter.UpdateView();
-
+//        _presenter = new MainPresenter(repository, this, _weatherService, _dialog);
+//        _presenter.UpdateView();
+        _bindingView = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        _model = new MainViewModel(repository, _weatherService);
+        _bindingView.setMainModel(_model);
+//        _toolbar = (Toolbar) _bindingView.t;
+        setSupportActionBar(_toolbar);
+        setupNavDrawer();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
-        RelativeLayout mainView = (RelativeLayout) findViewById(R.id.main_container);
+//        RelativeLayout mainView = (RelativeLayout) findViewById(R.id.main_container);
         Typeface iconFont = FontHelper.getTypeface(getApplicationContext(), FontHelper.FONTAWESOME);
-        FontHelper.markAsIconContainer(mainView, iconFont);
+        FontHelper.markAsIconContainer(_bindingView.contentMain.mainContainer, iconFont);
 
-        _cityListAdapter = new CitiesListAdapter(this, R.layout.city_item, new ArrayList<WeatherResponse>() {
-        }, _weatherService);
-        _citiesListView.setAdapter(_cityListAdapter);
+//        _cityListAdapter = new CitiesListAdapter(this, R.layout.city_item, new ArrayList<WeatherResponse>() {
+//        }, _weatherService);
+//        _citiesListView.setAdapter(_cityListAdapter);
     }
 
     /**
      * Sets up the navigation drawer.
      */
     private void setupNavDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) _bindingView.getRoot().findViewById(R.id.drawer_layout);
         if (drawerLayout == null) {
             // current activity does not have a drawer.
             return;
         }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) _bindingView.getRoot().findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerSelectListener(navigationView);
             setSelectedItem(navigationView);
@@ -212,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         final MenuItem add = menu.findItem(R.id.action_add);
-        TextView icon = (TextView) add.getActionView().findViewById(R.id.action_add_icon);
+        TextView icon = (TextView) _bindingView.getRoot().findViewById(R.id.action_add_icon);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,11 +234,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
 
                 _dialog.show(getSupportFragmentManager(), "AddCityDialog");
-                _dialog.AddCityClickEvent = (Integer cityId) -> {
-                    _presenter.AddCity(cityId);
-                    ;
-                    return cityId;
-                };
+//                _dialog.AddCityClickEvent = (Integer cityId)
+// -> {
+//                    _presenter.AddCity(cityId);
+//                    ;
+//                    return cityId;
+//                };
                 _dialog.SetChangeEvent(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
