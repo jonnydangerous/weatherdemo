@@ -9,6 +9,7 @@ import com.techninja.sensei.weatherapp.Views.IAddCityDialogView;
 import com.techninja.sensei.weatherapp.Views.IMainView;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -26,12 +27,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+@Ignore("Moving to MVVM This test is only around until the refactor is complete")
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTests {
-    MainPresenter _presenter;
-    IMainView _view;
-    IRepository _repos;
+    private MainPresenter _presenter;
+    private IMainView _view;
+    private IRepository _repos;
     private IWeatherWrapper _weather;
 
     List<WeatherResponse> _weatherResponse = mock(ArrayList.class);
@@ -82,7 +83,7 @@ public class MainPresenterTests {
     public void SetSelectedCity_HappyPath() {
         //Arrange
         _presenter.WeatherData = _weatherResponse;
-        when(_weather.GetIcon(anyString())).thenReturn(1);
+//        when(_weather.GetIcon(anyString())).thenReturn(1);
         _getIconFromWeatherStub();
 
         //Act
@@ -98,8 +99,8 @@ public class MainPresenterTests {
         List<CityModel> expectedCities = new ArrayList<CityModel>() {
         };
         CityModel expectedCity = new CityModel();
-        expectedCity._id = 1;
-        expectedCity.name = "CITY 1";
+        expectedCity.setId(1);
+        expectedCity.setName("CITY 1");
         expectedCities.add(expectedCity);
         when(_repos.LookupCity(anyString())).thenReturn(expectedCities);
 

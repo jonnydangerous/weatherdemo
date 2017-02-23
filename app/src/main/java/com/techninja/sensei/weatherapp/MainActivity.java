@@ -1,8 +1,11 @@
 package com.techninja.sensei.weatherapp;
 
 import android.content.SharedPreferences;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableList;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,10 +25,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -84,46 +89,62 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         IRepository repository = Repository.getInstance(preferencesWrapper, file);
-//        _citiesListView = (ListView) findViewById(R.id.citiesList);
-        _weatherService = new OpenWeatherWrapper(getString(R.string.api_key), getResources(), getPackageName());
+        _weatherService = new OpenWeatherWrapper(getString(R.string.api_key));
         _dialog = new AddCityDialog();
-//        _presenter = new MainPresenter(repository, this, _weatherService, _dialog);
-//        _presenter.UpdateView();
         _bindingView = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        _model = new MainViewModel(repository, _weatherService);
+//        _bindingView = DataBindingUtil.setContentView(this, R.layout.content_main);
+        _model = new MainViewModel(repository, _weatherService,getResources(), getPackageName());
         _bindingView.setMainModel(_model);
-//        _toolbar = (Toolbar) _bindingView.t;
+        _toolbar = (Toolbar) _bindingView.getRoot().findViewById(R.id.tool_bar);
+
         setSupportActionBar(_toolbar);
         setupNavDrawer();
 
+        // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
-//        RelativeLayout mainView = (RelativeLayout) findViewById(R.id.main_container);
-        Typeface iconFont = FontHelper.getTypeface(getApplicationContext(), FontHelper.FONTAWESOME);
-        FontHelper.markAsIconContainer(_bindingView.contentMain.mainContainer, iconFont);
+                .addApi(AppIndex.API).build();
 
-//        _cityListAdapter = new CitiesListAdapter(this, R.layout.city_item, new ArrayList<WeatherResponse>() {
-//        }, _weatherService);
-//        _citiesListView.setAdapter(_cityListAdapter);
+
     }
 
+    @BindingAdapter("bind:imageResource")
+    public static void bindImage(ImageView view, int resourceId){
+        view.setImageResource(resourceId);
+    }
+    @BindingAdapter("bind:fontFamily")
+    public static void bindFontFamily(View view,int  id){
+        FontHelper.markAsIconContainer(view);
+    }
+
+    @BindingAdapter({"bind:cities","bind:model"})
+    public static void bindCities(ListView view, ObservableList<WeatherResponse> data,final MainViewModel model){
+        CitiesListAdapter adapter = new CitiesListAdapter(data);
+        view.setAdapter(adapter);
+        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                model.SelectedWeather.set(model.WeatherData.get(position));
+            }
+        });
+    }
     /**
      * Sets up the navigation drawer.
      */
     private void setupNavDrawer() {
-        drawerLayout = (DrawerLayout) _bindingView.getRoot().findViewById(R.id.drawer_layout);
-        if (drawerLayout == null) {
-            // current activity does not have a drawer.
-            return;
-        }
-
-        NavigationView navigationView = (NavigationView) _bindingView.getRoot().findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerSelectListener(navigationView);
-            setSelectedItem(navigationView);
-        }
+//        drawerLayout = (DrawerLayout) _bindingView.getRoot().findViewById(R.id.drawer_layout);
+//        if (drawerLayout == null) {
+//            // current activity does not have a drawer.
+//            return;
+//        }
+//
+//        NavigationView navigationView = (NavigationView) _bindingView.getRoot().findViewById(R.id.nav_view);
+//        if (navigationView != null) {
+//            setupDrawerSelectListener(navigationView);
+//            setSelectedItem(navigationView);
+//        }
 
         //logD(TAG, "navigation drawer setup finished");
     }
@@ -216,10 +237,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        _toolbar.inflateMenu(R.menu.menu_main);
 
         final MenuItem add = menu.findItem(R.id.action_add);
-        TextView icon = (TextView) _bindingView.getRoot().findViewById(R.id.action_add_icon);
+        TextView icon = (TextView) _toolbar.findViewById(R.id.action_add_icon);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,5 +356,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         TextView hiTemp = (TextView) findViewById(R.id.selectedCityHiTemp);
         lowTemp.setText(Math.round(weatherResponse.getMain().getTempMin()) + "\u00b0 F");
         hiTemp.setText(Math.round(weatherResponse.getMain().getTempMax()) + "\u00b0 F");
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        mGoogleApiClient.connect();
+        AppIndex.AppIndexApi.start(mGoogleApiClient, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
+        mGoogleApiClient.disconnect();
     }
 }

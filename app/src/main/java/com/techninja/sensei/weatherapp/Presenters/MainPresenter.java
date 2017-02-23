@@ -1,8 +1,5 @@
 package com.techninja.sensei.weatherapp.Presenters;
 
-import android.database.Observable;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -13,7 +10,6 @@ import com.techninja.sensei.weatherapp.Services.IWeatherWrapper;
 import com.techninja.sensei.weatherapp.Views.IAddCityDialogView;
 import com.techninja.sensei.weatherapp.Views.IMainView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +22,7 @@ public class MainPresenter {
     private IAddCityDialogView _dialog;
     private IRepository _repository;
 
-    public ObservableList<WeatherResponse> WeatherData;
+    public List<WeatherResponse> WeatherData;
     public int CityCount;
 
     public MainPresenter(IRepository repository, IMainView view, IWeatherWrapper weatherWrapper, IAddCityDialogView dialog) {
@@ -53,7 +49,7 @@ public class MainPresenter {
 
     public void SetSelectedCity(int position) {
         WeatherResponse weather = WeatherData.get(position);
-        _view.SetSelectedCity(weather, _weatherWrapper.GetIcon(weather.getWeather().get(0).getIcon()));
+//        _view.SetSelectedCity(weather, _weatherWrapper.GetIcon(weather.getWeather().get(0).getIcon()));
     }
 
     public void LookupCity(String city) {

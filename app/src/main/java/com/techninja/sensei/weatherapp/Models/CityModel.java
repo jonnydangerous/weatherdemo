@@ -1,39 +1,38 @@
 package com.techninja.sensei.weatherapp.Models;
 
-import android.database.Observable;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.ObservableField;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 /**
- * Created by Dad on 2/3/2017.
+ * Created by jonathan.brown on 2/3/2017.
  */
 
 public class CityModel extends BaseObservable implements Serializable {
-    private String _id;
+    private int _id;
     private String _name;
+    public String name;
 
     @Bindable
-    public String getId() {
+    public int getId() {
         return this._id;
     }
 
     @Bindable
     public String getName() {
-        return this._name;
+        return this.name;
     }
 
     @SerializedName("name")
     public void setName(String name) {
-        this._name = name;
+        this.name = name;
     }
 
     @SerializedName("_id")
-    public void setId(String id) {
+    public void setId(int id) {
         this._id = id;
     }
 }

@@ -1,7 +1,6 @@
 package com.techninja.sensei.weatherapp.Utilities;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,12 @@ public class FontHelper {
     public static final String ROOT = "fonts/",
             FONTAWESOME = ROOT + "fontawesome-webfont.ttf";
 
-    public static Typeface getTypeface(Context context, String font) {
+    public static Typeface getTypeface(Context context,String font) {
         return Typeface.createFromAsset(context.getAssets(), font);
+    }
+
+    public static void markAsIconContainer(View view) {
+        markAsIconContainer(view, getTypeface(view.getContext(),FontHelper.FONTAWESOME));
     }
 
     public static void markAsIconContainer(View view, Typeface typeface) {
@@ -28,13 +31,13 @@ public class FontHelper {
                 markAsIconContainer(child, typeface);
             }
         } else if (view instanceof TextView && !(view instanceof EditText)) {
-            if ((((TextView) view).getText().toString() != null ||((TextView) view).getText().toString() !="") &&!ASCIIUtil.isLetterOrNumber(((TextView) view).getText().charAt(0))) {
+            if ((((TextView) view).getText().toString() != null || !((TextView) view).getText().toString().equals("")) && !ASCIIUtil.isLetterOrNumber(((TextView) view).getText().charAt(0))) {
                 ((TextView) view).setTypeface(typeface);
             }
         }
     }
 
-    public static void markAsIconContainer(Context context,View view) {
+    public static void markAsIconContainer(Context context, View view) {
         Typeface font = FontHelper.getTypeface(context, FontHelper.FONTAWESOME);
         markAsIconContainer(view, font);
     }

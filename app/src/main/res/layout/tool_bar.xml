@@ -1,13 +1,10 @@
-<layout>
-    <data></data>
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:paddingTop="@dimen/tool_bar_top_padding"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
-    </android.support.v7.widget.Toolbar>
-</layout>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tool_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:elevation="4dp"
+    android:paddingTop="@dimen/tool_bar_top_padding"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+<include layout="@layout/menu_item"></include>
+</android.support.v7.widget.Toolbar>

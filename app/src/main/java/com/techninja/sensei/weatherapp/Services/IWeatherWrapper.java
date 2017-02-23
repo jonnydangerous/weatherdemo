@@ -13,5 +13,4 @@ public interface IWeatherWrapper {
 
     String GetWeatherData(int locationId, Callback<WeatherResponse> callback);
 
-    Integer GetIcon(String iconId);
 }

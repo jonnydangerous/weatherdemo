@@ -1,8 +1,10 @@
 <layout>
 
-    <data></data>
-
+    <data>
+        <import type="com.techninja.sensei.weatherapp.Models.MainViewModel"/>
+    </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,7 +18,7 @@
             android:drawableBottom="@color/colorAccent"
             android:drawableLeft="@color/colorAccent"
             android:drawableRight="@color/colorAccent"
-            android:fontFamily="FontAwesome"
+            bind:fontFamily="@{1}"
             android:text="@string/fa_plus_circle"
             android:textColor="@color/colorInverseText"
             android:textSize="26dp" />

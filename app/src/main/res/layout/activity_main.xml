@@ -1,9 +1,11 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data>
-    <variable
-        name="mainModel"
-        type="com.techninja.sensei.weatherapp.Models.MainViewModel"/>
-</data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="mainModel"
+            type="com.techninja.sensei.weatherapp.Models.MainViewModel" />
+    </data>
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -16,15 +18,15 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/tool_bar_holder"
                 layout="@layout/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                />
 
-                ></include>
-
-            <include layout="@layout/content_main" android:id="@+id/content_main"  />
-
+            <include
+                android:id="@+id/content_main"
+                layout="@layout/content_main"
+                bind:mainModel="@{mainModel}"/>
         </LinearLayout>
 
 
@@ -32,8 +34,7 @@
             android:id="@+id/RecyclerView"
             android:layout_width="320dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-
+            android:layout_gravity="start"
             android:background="#ffffff"
             android:scrollbars="vertical">
 

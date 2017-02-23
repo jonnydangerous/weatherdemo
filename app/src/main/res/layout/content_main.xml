@@ -1,9 +1,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.techninja.sensei.weatherapp.Utilities.FontHelper"/>
+        <import type="com.techninja.sensei.weatherapp.Utilities.Formatter" />
+        <import type="com.techninja.sensei.weatherapp.Models.MainViewModel"/>
+        <variable name="mainModel" type="com.techninja.sensei.weatherapp.Models.MainViewModel" />
     </data>
 
     <RelativeLayout
@@ -32,7 +36,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:orientation="horizontal"
                     android:paddingTop="10dp">
 
@@ -40,23 +44,24 @@
                         android:id="@+id/icon_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="6dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="6dp"
                         android:paddingBottom="6dp"
                         android:text="@string/fa_thermometer"
+                        bind:fontFamily="@{1}"
                         android:textColor="@color/colorInverseText"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/selectedCityTemp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="10dp"
-                        android:text="TEMP F"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="10dp"
+                        android:text="@{mainModel.SelectedWeather !=null? Formatter.FormatTemp(mainModel.SelectedWeather.main.Temp):null}"
                         android:textColor="@color/colorInverseText"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <TextView
@@ -64,13 +69,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/icons_container"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     android:layout_toEndOf="@+id/icons_container"
-                    android:layout_toLeftOf="@+id/icons_container"
-                    android:layout_toRightOf="@+id/icons_container"
-                    android:text="CITY_NAME"
+                    android:text="@{mainModel.SelectedWeather.name}"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="35dp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/icons_container"
@@ -78,13 +81,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginStart="11dp"
                     android:layout_marginTop="40dp"
                     android:paddingBottom="6dp"
                     android:text="@string/fa_map_marker"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="30dp" />
+                    bind:fontFamily="@{1}"
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/selectedCityWeather"
@@ -92,20 +96,22 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/selectedCityName"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="@{mainModel.SelectedWeather !=null? mainModel.SelectedWeather.weather[0].Description:null}"
 
                     android:layout_marginTop="10dp"
-                    android:text="WEATHER"
                     android:textColor="@color/colorInverseText" />
 
                 <ImageView
                     android:id="@+id/weather_icon"
                     android:layout_width="100dp"
                     android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_below="@id/selectedCityWeather"
                     android:layout_marginBottom="2dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
+                    bind:imageResource="@{ mainModel.SelectedWeather !=null ? MainViewModel.GetIcon(mainModel.SelectedWeather.weather[0].icon): 0}"
+                    android:contentDescription="Selected weather icon"
                     android:tint="@color/colorInverseText"
                     app:srcCompat="@drawable/ic_weather_na" />
 
@@ -114,50 +120,52 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="6dp"
                     android:paddingBottom="6dp"
+                    bind:fontFamily="@{1}"
                     android:text="@string/fa_thermometer_lo"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/selectedCityLoTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignRight="@id/selectedCityLoTemp"
+                    android:layout_alignStart="@id/selectedCityLoTemp"
                     android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/selectedCityLoTempIcon"
-                    android:text="LOW F"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/selectedCityLoTempIcon"
+                    android:text="@{mainModel.SelectedWeather !=null? Formatter.FormatTemp(mainModel.SelectedWeather.main.TempMin):null}"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/selectedCityHiTempIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/selectedCityLoTemp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/selectedCityLoTemp"
                     android:paddingBottom="6dp"
                     android:text="@string/fa_thermometer_full"
+                    bind:fontFamily="@{1}"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/selectedCityHiTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/selectedCityHiTempIcon"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@id/selectedCityHiTempIcon"
                     android:paddingBottom="6dp"
-                    android:text="HI F"
+                    android:text="@{mainModel.SelectedWeather !=null? Formatter.FormatTemp(mainModel.SelectedWeather.main.TempMax):null}"
                     android:textColor="@color/colorInverseText"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -171,14 +179,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Favorite Cities"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <ListView
                 android:id="@+id/citiesList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/textView" />
+                bind:cities="@{mainModel.WeatherData}"
+            bind:model="@{mainModel}"
+                />
         </LinearLayout>
 
     </RelativeLayout>

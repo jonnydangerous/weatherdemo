@@ -25,9 +25,9 @@ import static org.mockito.Mockito.when;
  */
 
 public class RepositoryTests {
-    ISharedPreferences _preferences;
-    InputStream _stream;
-    IRepository _repos;
+    private ISharedPreferences _preferences;
+    private InputStream _stream;
+    private IRepository _repos;
     private String TEST_CITIES = "[{\"_id\":1,\"name\":\"CITY\",\"country\":\"USA\",\"coord\":{\"lon\":34.283333,\"lat\":44.549999}}," +
             "{\"_id\":2,\"name\":\"CITY2\",\"country\":\"USA\",\"coord\":{\"lon\":34.283333,\"lat\":44.549999}}]";
     @Before
@@ -64,16 +64,12 @@ public class RepositoryTests {
 
     @Test
     public void LookupCity_ReturnsBothMatches() {
-        //Arrange
-        List<Integer> expectedCities = new ArrayList<>();
-        expectedCities.add(1);
-        expectedCities.add(2);
 
         //Act
         List<CityModel> actual = _repos.LookupCity("CITY");
 
         //Assert
-        Assert.assertEquals(actual.size(),2);
+        Assert.assertEquals(2,actual.size());
     }
 
     @Test
@@ -88,6 +84,6 @@ public class RepositoryTests {
 
         //Assert
         Assert.assertEquals(actual.size(),1);
-        Assert.assertEquals(actual.get(0)._id,2);
+        Assert.assertEquals(actual.get(0).getId(),2);
     }
 }
